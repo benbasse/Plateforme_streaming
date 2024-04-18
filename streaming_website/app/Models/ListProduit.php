@@ -18,7 +18,7 @@ class ListProduit extends Model
 
     public function Product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->with('Categorie');
     }
 
     public function Abonnemnet()
