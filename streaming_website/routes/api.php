@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\QuestionController;
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +35,27 @@ Route::group([
 
 // Routes Auth pour les users
 Route::post('register', [AuthController::class, 'inscription']);
+
+// les routes pour les produits
+Route::post('produit', [ProductController::class, 'create']);
+Route::get('produit',  [ProductController::class, 'index']);
+Route::get("produit/detail/{id}", [ProductController::class, 'show']);
+Route::put("produit/edit/{id}", [ProductController::class, 'update']);
+Route::delete("produit/supprimer/{id}", [ProductController::class, 'destroy']);
+Route::post("produit/cherche", [ProductController::class, 'search']);
+
+// Les categories 
+Route::get("categorie",         [CategorieController::class, 'index']);
+Route::get("categorie/{id}",    [CategorieController::class, 'show']);
+Route::post("categorie",        [CategorieController::class, 'store']);
+Route::put("categorie/{id}",    [CategorieController::class, 'update']);
+Route::delete("categorie/{id}", [CategorieController::class,'destroy']);
+Route::post("categorie/cherche", [CategorieController::class, 'search']);
+
+// Les questions 
+Route::get("question", [QuestionController::class,'index']);
+Route::get("question/detail/{id}", [QuestionController::class, 'show']);
+Route::post("question", [QuestionController::class, 'store']);
+Route::put("question/edit/{id}", [QuestionController::class, 'update']);
+Route::delete("question/supprimer/{id}", [QuestionController::class, 'destroy']);
+
