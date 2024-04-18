@@ -93,4 +93,11 @@ class CategorieController extends Controller
             return response()->json($e);
         }
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $categorie = Categorie::where('titre', 'like', "%$keyword%")->get();
+        return $this->succesResponse($categorie, 'resultats categorie recherche');
+    }
 }
