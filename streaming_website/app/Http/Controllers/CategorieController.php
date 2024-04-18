@@ -2,64 +2,95 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Categorie\AddCategorieRequest;
+use App\Http\Requests\Categorie\EditCategorieRequest;
 use App\Models\Categorie;
+use Exception;
 use Illuminate\Http\Request;
+use App\Traits\ApiResponseTrait as ApiResponseTrait;
+
 
 class CategorieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponseTrait;
+    
     public function index()
     {
-        //
+        try {
+            $categorie = Categorie::all();
+            if ($categorie->isEmpty()) {
+                return response()->json([
+                    "status" => 204, 
+                    "message" => "La listes des categories est vide"
+                ]);
+            } else {
+                return $this->succesResponse($categorie, "La liste des categories");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(AddCategorieRequest $request)
     {
-        //
+        try {
+            $categorie = new Categorie();
+            $categorie->titre = $request->titre;
+            $categorie->description = $request->description;
+            if ($categorie->save()) {
+                return $this->succesResponse($categorie, 'Categorie enregistré');
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        try {
+            $categorie = Categorie::find($id);
+            if (!$categorie) {
+                return $this->errorResponse('Categorie non trouve');
+            } else {
+                return $this->succesResponse($categorie, 'Details Categorie');
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Categorie $categorie)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $categorie = Categorie::find($id);
+            if ($categorie) {
+                $categorie->titre = $request->titre;
+                $categorie->description = $request->description;
+                if ($categorie->update()) {
+                    return $this->succesResponse($categorie, 'Categorie modifié');
+                } else {
+                    return $this->errorResponse('Categorie non modifier');
+                }
+            } else {
+                return $this->errorResponse('Categorie non trouve');
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categorie $categorie)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Categorie $categorie)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Categorie $categorie)
-    {
-        //
+        try {
+            $categorie = Categorie::find($id);
+            if ($categorie) {
+                $categorie->delete();
+                return response()->json("Categorie supprimer avec sucess");
+            } else {
+                return $this->errorResponse("Categorie non trouve");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 }
