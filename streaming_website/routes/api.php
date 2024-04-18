@@ -28,3 +28,6 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
 });
+
+// Routes Auth pour les users
+Route::post('register', [AuthController::class, 'inscription']);
