@@ -2,64 +2,113 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Question\AddQuestionRequest;
+use App\Http\Requests\Question\EditQuestionRequest;
+use App\Models\Categorie;
 use App\Models\Question;
+use App\Traits\ApiResponseTrait as ApiResponseTrait;
+use Exception;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponseTrait;
     public function index()
     {
-        //
+        try {
+            $question = Question::with('Categorie')->get();
+            if ($question->isEmpty()) {
+                return response()->json([
+                    "message" => "la liste des question est null"
+                ]);
+            } else {
+                return $this->succesResponse($question, "Liste des questions");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(AddQuestionRequest $request)
     {
-        //
+        try {
+            $question = new Question();
+            $question->contenue = $request->contenue;
+            $categorie = Categorie::find($request->categorie_id);
+            if (!$categorie) {
+                return $this->errorResponse('Cette Categorie n\'existe pas');
+            } else {
+                $question->categorie_id = $categorie->id;
+                if ($question->save()) {
+                    return $this->succesResponse($question, "Question ajouté");
+                } else {
+                    return $this->errorResponse("Question non ajouté");
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Question $question)
+    public function show($id)
     {
-        //
+        try {
+            $question = Question::find($id);
+            if ($question) {
+                return $this->succesResponse($question, "details question");
+            } else {
+                return $this->errorResponse("Question non trouver");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Question $question)
+
+    public function update(EditQuestionRequest $request, $id)
     {
-        //
+        try {
+            $question = Question::find($id);
+            if ($question) {
+                $question->contenue = $request->contenue;
+                $categorie = Categorie::find($request->categorie_id);
+                if (!$categorie) {
+                    return $this->errorResponse('Cette Categorie n\'existe pas');
+                } else {
+                    $question->categorie_id = $categorie->id;
+                    if ($question->save()) {
+                        return $this->succesResponse($question, "Question modifié");
+                    } else {
+                        return $this->errorResponse("Question non modifié");
+                    }
+                }
+            } else {
+                return $this->errorResponse("Question non trouvé");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Question $question)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Question $question)
-    {
-        //
+        try {
+            $question = Question::find($id);
+            if ($question) {
+                $question->delete();
+                return response()->json([
+                    "status" => 200,
+                    "message" => "question modifié"
+                ]);
+            } else {
+                return $this->errorResponse("Question non trouvé");
+            }
+        } catch (Exception $e) {
+            return response()->json($e);
+        }
     }
 }
