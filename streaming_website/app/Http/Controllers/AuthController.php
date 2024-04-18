@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\RegisterUserRequest;
 use App\Models\User;
 use Exception;
@@ -26,7 +27,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(LoginUserRequest $request)
     {
         $credentials = request(['email', 'password']);
 
@@ -104,6 +105,11 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json($e);
         }
+    }
+
+    private function storeImage($image)
+    {
+        return $image->store('user', 'public');
     }
 
 
