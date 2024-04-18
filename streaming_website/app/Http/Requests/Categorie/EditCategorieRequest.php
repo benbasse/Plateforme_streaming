@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Categorie;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class EditCategorieRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class EditCategorieRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,26 @@ class EditCategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'titre'       =>  'required',
+            'description' => 'required|string'
+        ];
+    }
+
+    public function failedValidation(Validator $validator ){
+        throw new HttpResponseException(response()->json([
+            'success'=>false,
+            'status_code'=>422,
+            'error'=>true,
+            'message'=>'erreur de validation',
+            'errorList'=>$validator->errors()
+        ]));
+    }
+
+    public function messages(){
+        return [
+            'titre.required'       => 'le titre est requis',
+            'description.required' => 'La descripton est requis',
+            'description.string'   => 'La description doit etre de format text'
         ];
     }
 }
