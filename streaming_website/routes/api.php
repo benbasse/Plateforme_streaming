@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ReponseController;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,3 +60,10 @@ Route::post("question", [QuestionController::class, 'store']);
 Route::put("question/edit/{id}", [QuestionController::class, 'update']);
 Route::delete("question/supprimer/{id}", [QuestionController::class, 'destroy']);
 
+
+// Les reponses
+Route::get("reponse", [ReponseController::class, 'index']);
+Route::get("reponse/detail/{id}", [ReponseController::class, 'show']);
+Route::post("reponse", [ReponseController::class, 'store']);
+Route::put("reponse/edit/{id}", [ReponseController::class, 'update']);
+Route::delete("reponse/supprimer/{id}", [ReponseController::class, 'destroy']);
