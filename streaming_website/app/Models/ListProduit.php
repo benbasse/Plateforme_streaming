@@ -13,12 +13,13 @@ class ListProduit extends Model
     protected $fillable = [
         'quantite',
         'dateAjout',
+        'prixUnitaire',
         'product_id'
     ];
 
     public function Product()
     {
-        return $this->belongsTo(Product::class)->with('Categorie');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function Abonnemnet()
