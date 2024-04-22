@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\ListProduit;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AddListProduitRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class AddListProduitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,24 @@ class AddListProduitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_id' => 'required'
         ];
     }
+
+    public function failedValidation(Validator $validator ){
+        throw new HttpResponseException(response()->json([
+            'success'=>false,
+            'status_code'=>422,
+            'error'=>true,
+            'message'=>'erreur de validation',
+            'errorList'=>$validator->errors()
+        ]));
+    }
+
+    public function messages(){
+        return [
+            'product_id.required' => 'le produit est requis'
+        ];
+    }
+
 }
