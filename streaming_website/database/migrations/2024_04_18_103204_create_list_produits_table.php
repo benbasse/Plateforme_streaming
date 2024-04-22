@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('quantite');
             $table->dateTime('dateAJout');
             $table->foreignIdFor(Product::class);
+            $table->integer('prixUnitaire');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
