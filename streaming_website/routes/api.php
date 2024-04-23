@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProductController;
@@ -67,3 +68,6 @@ Route::get("reponse/detail/{id}", [ReponseController::class, 'show']);
 Route::post("reponse", [ReponseController::class, 'store']);
 Route::put("reponse/edit/{id}", [ReponseController::class, 'update']);
 Route::delete("reponse/supprimer/{id}", [ReponseController::class, 'destroy']);
+
+// les abonnements
+Route::post('abonnement', [AbonnementController::class, 'store']);
