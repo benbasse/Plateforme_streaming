@@ -128,9 +128,9 @@ class AuthController extends Controller
                 $validatedData = $this->validate($request, [
                     'nom'=>'required',
                     'prenom'=>'required',
-                    'image'=>'required',
+                    // 'image'=>'required',
                     'email'=>'required|unique:users,email|email',
-                    'password'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
+                    'password'=>'sometimes|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
                     'telephone' =>'required|regex:/^7[0-9]{8}$/|unique:users,telephone',
                 ],[
                     'nom.required'      =>  'Le nom est requis',
@@ -148,14 +148,14 @@ class AuthController extends Controller
                 $user = new User();
                 $user->nom = $validatedData['nom'];
                 $user->prenom = $validatedData['prenom'];
-                $user->image = $this->storeImage($validatedData['image']);
+                // $user->image = $this->storeImage($validatedData['image']);
                 $user->telephone = $validatedData['telephone'];
                 $user->email = $validatedData['email'];
                 $user->password = Hash::make($validatedData['password']);
                 $user->save();
                 return response()->json([
                     'status_code' => 200,
-                    'status_message' => 'Inscription réussie'
+                    'status_message' => 'Utilisateur enregistrer avec succes'
                 ]);
             }
     }
