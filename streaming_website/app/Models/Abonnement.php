@@ -15,7 +15,7 @@ class Abonnement extends Model
         'quantite',
         'totalPrice',
         'user_id',
-        'ListProduct_id'
+        'list_produit_id'
     ];
 
 
