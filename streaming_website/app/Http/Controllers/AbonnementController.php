@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Abonnement;
+use App\Models\ListProduit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AbonnementController extends Controller
 {
@@ -28,7 +31,18 @@ class AbonnementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // je dois recuperper tous les abonnements faits pour les enregister dans cette tables
+        $abonnement = new Abonnement();
+        $abonnement->user_id = 0;
+        $abonnement->list_produit_id = 0;
+        $abonnement->user_id = Auth::user()->id;
+        if ($list = ListProduit::find($request->list_produit_id)) {
+            $abonnement->list_produit_id = $list->id;
+            $abonnement->priceTotal = $list->sum('prixUnitaire');
+            $abonnement->quantite = $list->count();
+            $abonnement->datePaiement = Carbon::now()->setTimezone('Africa/Dakar')->format('Y-m-d H:i:s');
+            return response()->json($abonnement);
+        }
     }
 
     /**
@@ -61,5 +75,12 @@ class AbonnementController extends Controller
     public function destroy(Abonnement $abonnement)
     {
         //
+    }
+
+    // Methode pour enregistrer la liste des produits ajoutes en meme tant l'utilisateur et le paiements
+    public function Abonnement(){
+        // j'ai besoin d'abord enregistrer la liste des produits 
+        // je dois recuperer l'utilisateur
+        // je dois maintenant remplir la table abonnement
     }
 }

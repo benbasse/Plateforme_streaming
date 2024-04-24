@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReponseController;
@@ -67,3 +70,20 @@ Route::get("reponse/detail/{id}", [ReponseController::class, 'show']);
 Route::post("reponse", [ReponseController::class, 'store']);
 Route::put("reponse/edit/{id}", [ReponseController::class, 'update']);
 Route::delete("reponse/supprimer/{id}", [ReponseController::class, 'destroy']);
+
+// les abonnements
+Route::post('abonnement', [AbonnementController::class, 'store']);
+
+
+// Les messages
+Route::get("message",[MessageController::class, 'index']);
+Route::get("message/detail/{id}",[MessageController::class, 'show']);
+Route::post("message",[MessageController::class, 'store']);
+Route::delete("message/supprimer/{id}",[MessageController::class, 'destroy']);
+
+// Les newsletter
+Route::get("newsletter",[NewsletterController::class, 'index']);
+Route::get("newsletter/detail/{id}",[NewsletterController::class, 'show']);
+Route::post("newsletter",[NewsletterController::class, 'store']);
+Route::get("newsletter/supprimer",[NewsletterController::class, 'destroy']);
+
