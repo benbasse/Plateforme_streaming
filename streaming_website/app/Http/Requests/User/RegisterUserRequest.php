@@ -24,11 +24,10 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom'=>'required',
-            'prenom'=>'required',
-            'image'=>'required',
+            'nom'=>'required|string',
+            'prenom'=>'required|string',
             'email'=>'required|unique:users,email|email',
-            'password'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
+            'password'=>'sometimes|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
             'telephone' =>'required|regex:/^7[0-9]{8}$/|unique:users,telephone',
         ];
     }
@@ -47,8 +46,9 @@ class RegisterUserRequest extends FormRequest
     {
         return [
             'nom.required'=>'le nom est requis',
+            'nom.string' => 'le nom doit compose que des lettres',
+            'prenom.string' => 'le prenom doit compose que des lettres',
             'prenom.required'=>'le prenom est requis',
-            'image.required'=>'l\'image est requis',
             'email.required'=>'l\'email est requis',
             'email.unique'=>'l\'email existe déja',
             'email.email'=>"format email incorrect",
