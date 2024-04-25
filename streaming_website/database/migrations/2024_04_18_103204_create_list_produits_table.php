@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('quantite');
             $table->dateTime('dateAJout');
             $table->foreignIdFor(Product::class);
-            $table->integer('prixUnitaire');
+            $table->integer('montant');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('list_produits');
     }
 };
+// php artisan migrate:refresh --path=chemin_table

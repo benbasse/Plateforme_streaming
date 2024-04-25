@@ -13,7 +13,7 @@ class ListProduit extends Model
     protected $fillable = [
         'quantite',
         'dateAjout',
-        'prixUnitaire',
+        'montant',
         'product_id'
     ];
 
