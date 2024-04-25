@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ListProduitController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProductController;
@@ -85,5 +86,12 @@ Route::delete("message/supprimer/{id}",[MessageController::class, 'destroy']);
 Route::get("newsletter",[NewsletterController::class, 'index']);
 Route::get("newsletter/detail/{id}",[NewsletterController::class, 'show']);
 Route::post("newsletter",[NewsletterController::class, 'store']);
-Route::get("newsletter/supprimer",[NewsletterController::class, 'destroy']);
+Route::delete("newsletter/supprimer/{id}",[NewsletterController::class, 'destroy']);
 
+
+// Liste des produits 
+Route::get("liste", [ListProduitController::class, 'index']);
+Route::get("liste/detail/{id}", [ListProduitController::class, 'show']);
+Route::post("liste", [ListProduitController::class, 'store']);
+Route::put("liste/edit/{id}", [ListProduitController::class, 'update']);
+Route::delete("liste/supprimer/{id}", [ListProduitController::class, 'destroy']);
