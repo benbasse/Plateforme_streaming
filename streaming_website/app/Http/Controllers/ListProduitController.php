@@ -35,7 +35,6 @@ class ListProduitController extends Controller
         }
     }
 
-
     public function store(Request $request)
     {
         try {
@@ -43,10 +42,12 @@ class ListProduitController extends Controller
             if ($product = Product::find($request->product_id)) {
                 $list->product_id = $product->id;
                 $list->dateAjout = Carbon::now()->setTimezone('Africa/Dakar')->format('Y-m-d H:i:s');
-                $list->quantite = $product->quantite;
-                $list->prixUnitaire = $product->prix;
+                $list->quantite = $request->quantite;
+                $list->montant = $product->prix * $request->quantite;
                 if ($list->save()) {
                     return $this->succesResponse($list, "Produit ajouté dans la liste");
+                }else{
+                    return $this->errorResponse("Erreur lors de l'enregistrement");
                 }
             } else {
                 return $this->errorResponse("Cette produit n'existe pas");
@@ -80,6 +81,7 @@ class ListProduitController extends Controller
                 if ($product = Product::find($request->product_id)) {
                     $list->product_id = $product->id;
                     $list->date = Carbon::now()->setTimezone('Africa/Dakar')->format('Y-m-d H:i:s');
+                    $list->montant = $request->montant;
                     if ($list->save()) {
                         return $this->succesResponse($list, "Produit ajouté dans la liste");
                     }
