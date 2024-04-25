@@ -17,7 +17,6 @@ class AdminSeeder extends Seeder
             "nom" => "admin",
             "prenom" => "admin",
             "telephone" => 772889673,
-            "image"=> "image.png",
             "email" => "admin@gmail.com",
             "password" => Hash::make('azertyuiop'),
             "role" => "admin",
