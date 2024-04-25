@@ -12,14 +12,6 @@ class MessageController extends Controller
     use ApiResponseTrait;
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         try {
             $messsage = Message::all();
             if($messsage->isEmpty()){
@@ -31,6 +23,7 @@ class MessageController extends Controller
             //throw $th;
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
