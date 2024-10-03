@@ -45,7 +45,7 @@ Route::put("produit/edit/{id}", [ProductController::class, 'update']);
 Route::delete("produit/supprimer/{id}", [ProductController::class, 'destroy']);
 Route::post("produit/cherche", [ProductController::class, 'search']);
 
-// Les categories 
+// Les categories
 Route::get("categorie",         [CategorieController::class, 'index']);
 Route::get("categorie/{id}",    [CategorieController::class, 'show']);
 Route::post("categorie",        [CategorieController::class, 'store']);
