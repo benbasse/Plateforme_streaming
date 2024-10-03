@@ -20,10 +20,10 @@ class ProductController extends Controller
             $product = Product::with('Categorie')->where('quantite', '>', 0)->get();
             if (empty($product)) {
                 return response()->json([
-                    "message" =>"La liste des produits est vide",
+                    "message" => "La liste des produits est vide",
                     "status" => 204
                 ]);
-            }else {
+            } else {
                 return $this->succesResponse($product, 'Liste des produits');
             }
         } catch (Exception $e) {
@@ -71,7 +71,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update(EditProductRequest $request,$id)
+    public function update(EditProductRequest $request, $id)
     {
         try {
             $product = Product::find($id);
@@ -122,7 +122,8 @@ class ProductController extends Controller
         }
     }
 
-    private function storeImage($image){
+    private function storeImage($image)
+    {
         return $image->store('product', 'public');
     }
 
